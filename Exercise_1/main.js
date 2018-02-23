@@ -62,5 +62,7 @@ newRects.append('rect')
   .attr('height', y.bandwidth)
   .attr('width', function(d, i) {
     return x(d.sales);
-  });
+  })
+  //***añadir .attr */
+  ;
   
