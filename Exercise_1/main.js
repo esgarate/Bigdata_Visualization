@@ -20,6 +20,7 @@ var maxSales = d3.max(totalSales, function(d, i) {
   return d.sales;
 });
 
+
 // Now on the X axis we want to map totalSales values to
 // pixels
 // in this case we map the canvas range 0..350, to 0...maxSales
@@ -62,3 +63,4 @@ newRects.append('rect')
   .attr('width', function(d, i) {
     return x(d.sales);
   });
+  
