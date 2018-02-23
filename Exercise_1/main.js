@@ -35,6 +35,8 @@ var x = d3.scaleLinear()
 // ** Tip: let's play with [0, 75] values
 var y = d3.scaleBand()
   .rangeRound([0, 75])
+//*********** Añadir espacio entre barras 
+  .paddingInner(0.15)
   .domain(totalSales.map(function(d, i) {
     return d.product;
   }));
@@ -46,7 +48,7 @@ var newRects = rects.enter();
 // UpperCorner:
 //    Starting x position, the start from the axis
 //    Starting y position, where the product starts on the y scale
-// React width and height:
+// Rects width and height:
 //    height: the space assign for each entry (product) on the Y axis
 //    width: Now that we have the mapping previously done (linear)
 //           we just pass the sales and use the X axis conversion to
