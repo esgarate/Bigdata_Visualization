@@ -30,6 +30,7 @@ var y = d3.scaleBand()
     return d.product;
   }));
 
+  //* To show the chart vertically
 var Yaxisnew = d3.scaleLinear()
     .domain([0, maxSales])
     .range([0, 350]);
@@ -56,7 +57,7 @@ newRects.append('rect')
 })
   .attr('width', XAxisNew.bandwidth)
   
- //* cCange bar colors 
+ //* Change bar colors 
   .style("fill", function(d) {return d.color});
 
  
