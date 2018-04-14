@@ -1,5 +1,5 @@
 
-//*Define the color of each bar
+//*Define the color of each bar/product
 var totalSales = [
     { product: 'Hoodie', sales: 7 , "color" : "green"},
     { product: 'Jacket', sales: 6 ,"color" : "purple"},
@@ -24,7 +24,7 @@ var x = d3.scaleLinear()
 
 var y = d3.scaleBand()
   .rangeRound([0, 75])
-//*********** Add space between bars 
+//* Add space between bars 
   .paddingInner(0.15)
   .domain(totalSales.map(function(d, i) {
     return d.product;
@@ -56,13 +56,12 @@ newRects.append('rect')
 })
   .attr('width', XAxisNew.bandwidth)
   
- //* change bar colors 
+ //* cCange bar colors 
   .style("fill", function(d) {return d.color});
-  //  .attr('orient', 'bottom');
-  
+
  
   
-  //Add a legend 
+//*Add a legend to the barchar
   var legend = svg.selectAll(".legend")
   .data(totalSales.slice())
   .enter().append("g")
