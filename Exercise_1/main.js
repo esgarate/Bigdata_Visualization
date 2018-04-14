@@ -1,68 +1,84 @@
+
+//*Define the color of each bar
 var totalSales = [
-    { product: 'Hoodie', sales: 7 },
-    { product: 'Jacket', sales: 6 },
-    { product: 'Snuggie', sales: 9 },
+    { product: 'Hoodie', sales: 7 , "color" : "green"},
+    { product: 'Jacket', sales: 6 ,"color" : "purple"},
+    { product: 'Snuggie', sales: 9 ,"color" : "red"},
     ];
-    // 1. let's start by selecting the SVG Node
+
 var svg = d3.select('svg');
 
-// 2. Now let's select all the rectangles inside that svg
-// (right now is empty)
+
 var rects = svg.selectAll('rect')
   .data(totalSales);
 
-
-// 3. In order to calculate the max width for the X axis
-// on the bar chart, we need to know the max sales value we are going
-// to show.
 
 var maxSales = d3.max(totalSales, function(d, i) {
   return d.sales;
 });
 
 
-// Now on the X axis we want to map totalSales values to
-// pixels
-// in this case we map the canvas range 0..350, to 0...maxSales
-// domain == data (data from 0 to maxSales) boundaries
-// ** Tip: let's play with [0, 350] values
-var x = d3.scaleLinear()
-  .range([0, 350])
-  .domain([0, maxSales]);
+var x = d3.scaleLinear() 
+  .domain([0, maxSales])
+  .range([0, 350]);
 
-// Now we don't have a linear range of values, we have a discrete
-// range of values (one per product)
-// Here we are generating an array of product names
-// ** Tip: let's play with [0, 75] values
 var y = d3.scaleBand()
   .rangeRound([0, 75])
-//*********** Añadir espacio entre barras 
+//*********** Add space between bars 
   .paddingInner(0.15)
   .domain(totalSales.map(function(d, i) {
     return d.product;
   }));
 
-// Now it's time to append to the list of Rectangles we already have
+var Yaxisnew = d3.scaleLinear()
+    .domain([0, maxSales])
+    .range([0, 350]);
+
+var XAxisNew = d3.scaleBand()
+    .rangeRound([0, 75])
+    .domain(totalSales.map(function (d, i) {
+        return d.product;
+    })).padding(0.05);
+
+
 var newRects = rects.enter();
 
-// Let's append a new Rectangles
-// UpperCorner:
-//    Starting x position, the start from the axis
-//    Starting y position, where the product starts on the y scale
-// Rects width and height:
-//    height: the space assign for each entry (product) on the Y axis
-//    width: Now that we have the mapping previously done (linear)
-//           we just pass the sales and use the X axis conversion to
-//           get the right value
+
 newRects.append('rect')
-  .attr('x', x(0))
-  .attr('y', function(d, i) {
-    return y(d.product);
+.attr('x', function (d, i) {
+  return XAxisNew(d.product);
   })
-  .attr('height', y.bandwidth)
-  .attr('width', function(d, i) {
-    return x(d.sales);
+  .attr('y', function (d, i) {
+    return Yaxisnew(0)
   })
-  //***añadir .attr */
-  ;
+.attr('height', function (d, i) {
+    return Yaxisnew(d.sales);
+})
+  .attr('width', XAxisNew.bandwidth)
+  
+ //* change bar colors 
+  .style("fill", function(d) {return d.color});
+  //  .attr('orient', 'bottom');
+  
+ 
+  
+  //Add a legend 
+  var legend = svg.selectAll(".legend")
+  .data(totalSales.slice())
+  .enter().append("g")
+  .attr("class", "legend")
+  .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+  .attr("x", 300)
+  .attr("width", 10)
+  .attr("height", 15)
+  .style("fill", function (d) {return d.color});
+  
+ legend.append("text")
+  .attr("x", 270)
+  .attr("y", 10)
+  .attr("dy", ".35em")
+  .style("text-anchor", "middle")
+  .text(function (d) { return d.product; });
   
