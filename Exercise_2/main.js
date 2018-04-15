@@ -1,29 +1,34 @@
 
-// Let's start using ES6
-// And let's organize the code following clean code concepts
-// Later one we will complete a version using imports + webpack
-
-// Isolated data array to a different file
-
 let margin = null,
   width = null,
   height = null;
 
+
+
 let svg = null;
 let x, y = null; // scales
 
-setupCanvasSize();
-appendSvg("body");
-setupXScale();
-setupYScale();
-appendXAxis();
-appendYAxis();
-appendLineCharts();
 
 
-// 1. let's start by selecting the SVG Node
+
+main();
+
+function main() {       
+    setupCanvasSize();
+    appendSvg("body");
+    setupXScale();
+    setupYScale();
+    appendXAxis();
+    appendYAxis();
+    appendLineCharts();
+    addTitle();
+    addCircles();
+   
+
+};
+
 function setupCanvasSize() {
-  margin = { top: 20, left: 80, bottom: 20, right: 30 };
+  margin = { top: 200, left: 80, bottom: 20, right: 30 };
   width = 960 - margin.left - margin.right;
   height = 520 - margin.top - margin.bottom;
 }
@@ -37,10 +42,6 @@ function appendSvg(domElement) {
 
 }
 
-// Now on the X axis we want to map totalSales values to
-// pixels
-// in this case we map the canvas range 0..350, to 0...maxSales
-// domain == data (data from 0 to maxSales) boundaries
 function setupXScale() {
 
   x = d3.scaleTime()
@@ -48,9 +49,6 @@ function setupXScale() {
     .domain(d3.extent(totalSales, function (d) { return d.month }));
 }
 
-// Now we don't have a linear range of values, we have a discrete
-// range of values (one per product)
-// Here we are generating an array of product names
 function setupYScale() {
   var maxSales = d3.max(totalSales, function (d, i) {
     return d.sales;
@@ -80,25 +78,54 @@ function appendLineCharts() {
   var valueline = d3.line()
     .x(function (d) { return x(d.month); })
     .y(function (d) { return y(d.sales); });
+}
+// draw circle for every register in TotalSales    
+//var circles = 
 
-  var circles = svg.selectAll("circle")
+function addCircles(){
+ svg.selectAll("circle")
     .data(totalSales)
     .enter()
     .append("circle")
-      .attr("cx", function (d) { return x(d.month) })
-      .attr("cy", function (d) { return y(d.sales) })
-      .attr("r", function (d) { return 20; })
-      
-      //.style("fill", function (d) { return d.color; });
-    
-    ;
-
+    .attr("cx", function (d) { return x(d.month) })
+    .attr("cy", function (d) { return y(d.sales) })
+    .attr("r", function (d) { return 10; })
+    // Add the click
+    //.attr("class", function (d) { return "node "+d.label })
+    //.on("click", click)
+    .call(force.drag);
+}
 
 
   // Add the valueline path.
+function addValueline(){
   svg.append("path")
     .data([totalSales])
     .attr("class", "line")
     .attr("d", valueline);
-
 }
+
+function addTitle() {
+    svg.append("text")
+        .attr("x", (width/2 ))
+        .attr("y",-100  )
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .style("text-decoration", "underline")
+        .text("TOTAL SALES PER MONTH ");
+};
+
+function onClick(d) {
+    div.transition()
+        .duration(200)
+        .style("opacity", .9);
+
+    createTooltip(d);
+};
+
+function onMouseout(d) {
+    div.transition()
+        .duration(3000)
+        .style("opacity", 0);
+};
+
