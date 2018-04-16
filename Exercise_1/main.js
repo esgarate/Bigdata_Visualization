@@ -38,29 +38,9 @@ addLegend();
 
 
 
-function addLegend()  {
-//*Add a legend to the barchar
-  var legend = svg.selectAll(".legend")
-    .data(totalSales.slice())
-    .enter().append("g")
-    .attr("class", "legend")
-    .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
-  legend.append("rect")
-    .attr("x", 300)
-    .attr("width", 10)
-    .attr("height", 15)
-    .style("fill", function (d) {return d.color});
-  
-  legend.append("text")
-    .attr("x", 270)
-    .attr("y", 10)
-    .attr("dy", ".35em")
-    .style("text-anchor", "middle")
-    .text(function (d) { return d.product; });
-  } 
 function setupCanvasSize() {
-    margin = {top: 100, left: 180, bottom: 120, right: 130};
+    margin = {top: 0, left: 180, bottom: 100 , right: 130};
     width = 960 - margin.left - margin.right;
     height = 800 - margin.top - margin.bottom;
   }
@@ -95,7 +75,6 @@ function setupYScale()
   
     y = d3.scaleLinear()
       .range([height,0])
-      //* Add space between bars 
       .domain([0, maxSales]);    
   }
   
@@ -109,7 +88,6 @@ function appendXAxis()
   
 function appendYAxis() 
 {
-    //   
     // Add the Y Axis
     svg.append("g")   
   
@@ -137,3 +115,24 @@ function appendChartBars()
       ;
 
 }
+function addLegend()  {
+  //*Add a legend to the barchar
+    var legend = svg.selectAll(".legend")
+      .data(totalSales.slice())
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+  
+    legend.append("rect")
+      .attr("x", 300)
+      .attr("width", 10)
+      .attr("height", 15)
+      .style("fill", function (d) {return d.color});
+    
+    legend.append("text")
+      .attr("x", 270)
+      .attr("y", 10)
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text(function (d) { return d.product; });
+    } 
