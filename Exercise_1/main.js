@@ -15,28 +15,21 @@ var maxSales = d3.max(totalSales, function(d, i) {
   return d.sales;
 });
 
-var x = d3.scaleLinear() 
-  .domain([0, maxSales])
-  .range([0, 350])
-  ;
 
-var y = d3.scaleBand()
-  .rangeRound([0, 75])
-  .domain(totalSales.map(function(d, i) {
-    return d.product;
-  }));
+main();
 
-//* To show the chart vertically
-setupCanvasSize();
-appendSvg("body");
-setupXScale();
-setupYScale();
-appendXAxis();
-appendYAxis();
-appendChartBars();
-addLegend();
-
-
+function main() { 
+  setupCanvasSize();
+  appendSvg("body");
+// Add the scale for products and sales
+  setupXScale();
+  setupYScale();
+// Add the axis X and Y
+  appendXAxis();
+  appendYAxis();
+  appendChartBars();
+  addLegend();
+};
 
 
 function setupCanvasSize() {
@@ -77,18 +70,16 @@ function setupYScale()
       .range([height,0])
       .domain([0, maxSales]);    
   }
-  
+
 function appendXAxis() 
   {
-    // Add the X Axis
     svg.append("g")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x));
   }
-  
+
 function appendYAxis() 
 {
-    // Add the Y Axis
     svg.append("g")   
   
     .call(d3.axisLeft(y));

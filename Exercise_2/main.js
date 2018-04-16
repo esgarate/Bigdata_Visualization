@@ -1,16 +1,3 @@
-
-let margin = null,
-  width = null,
-  height = null;
-
-
-
-let svg = null;
-let x, y = null; // scales
-let text = null;
-
-
-
 main();
 
 function main() {       
@@ -32,7 +19,6 @@ function setupCanvasSize() {
   width = 960 - margin.left - margin.right;
   height = 520 - margin.top - margin.bottom;
 }
-
 function appendSvg(domElement) {
   svg = d3.select(domElement).append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -44,14 +30,12 @@ function appendSvg(domElement) {
         .attr("class", "tooltip")
         .style("opacity", 0);
 }
-
 function setupXScale() {
 
   x = d3.scaleTime()
     .range([0, width])
     .domain(d3.extent(totalSales, function (d) { return d.month }));
 }
-
 function setupYScale() {
   var maxSales = d3.max(totalSales, function (d, i) {
     return d.sales;
@@ -62,20 +46,17 @@ function setupYScale() {
     .domain([0, maxSales]);
 
 }
-
 function appendXAxis() {
   // Add the X Axis
   svg.append("g")
     .attr("transform", `translate(0, ${height})`)
     .call(d3.axisBottom(x));
 }
-
 function appendYAxis() {
   // Add the Y Axis
   svg.append("g")
     .call(d3.axisLeft(y));
 }
-
 function appendLineCharts() {
   // define the line
   var valueline = d3.line()
@@ -83,7 +64,6 @@ function appendLineCharts() {
     .y(function (d) { return y(d.sales); });
 }
 // draw circle for every register in TotalSales    
-
 function addCircles(){
  svg.selectAll("circle")
     .data(totalSales)
@@ -92,12 +72,10 @@ function addCircles(){
     .attr("cx", function (d) { return x(d.month) })
     .attr("cy", function (d) { return y(d.sales) })
     .attr("r", function (d) { return 10; })
-    // Add the click
     .on(["mouseover"], onMouseover)
     .on("mouseout", onMouseout)
     .call(force.drag);
 }
-
 // Add the valueline path.
 function addValueline(){
   svg.append("path")
@@ -105,7 +83,6 @@ function addValueline(){
     .attr("class", "line")
     .attr("d", valueline);
 }
-
 //Add a Tittle
 function addTitle() {
     svg.append("text")
@@ -116,8 +93,7 @@ function addTitle() {
         .style("text-decoration", "underline")
         .text("TOTAL SALES PER MONTH ");
 };
-
-//Show the message with mouse click
+//Show the message with mouse on
 function onMouseover(d) {
     text.transition()
         .duration(20)
@@ -126,40 +102,18 @@ function onMouseover(d) {
         .attr("width", 600);
     createMessage(d);
 };
-
 //Hide the message with mouse off
 function onMouseout(d) {
     text.transition()
         .duration(3000)
         .style("opacity", 0);
 };
-
 function createMessage(d) {
     text.html(
         "<text id='thumbnail'><span> IMPORTE:" + d.sales + "</text>")
-    //"MENSAJITO")
-
         .style("left", (d3.event.pageX - 113) + "px")   
         .style("top", (d3.event.pageY - 190) + "px")
         .style("height", "220px")
         .style("width", "500px")
         .style("background", d3.rgb("#fdae6b"));
 };
-
-function createMessage1(d) {
-   
-    text.html(getMessage(d))
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 28) + "px")
-        .style("height", "220px")
-        .style("width", "500px")
-        .style("background", d3.rgb("#fdae6b"));
-};
-
-
-function getMessage(d) {
-    var message = "MENSAJE";
-    return message;
-};
-
-

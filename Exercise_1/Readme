@@ -7,8 +7,9 @@ This task consists on displaying a barchart with the next features:
 
 Adding space between columns.
 Adding colors to each bar.
-Reseve space for the graph
-Add the axis and their scales
+Reseve space for the graph.
+Add scales for product and sales.
+Add the axis  X and Y.
 Showing the chart vertically.
 Adding a legend.
 
