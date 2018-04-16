@@ -93,7 +93,7 @@ function addCircles(){
     .attr("cy", function (d) { return y(d.sales) })
     .attr("r", function (d) { return 10; })
     // Add the click
-    .on(["click"], onClick)
+    .on(["mouseover"], onMouseover)
     .on("mouseout", onMouseout)
     .call(force.drag);
 }
@@ -118,12 +118,12 @@ function addTitle() {
 };
 
 //Show the message with mouse click
-
-function onClick(d) {
+function onMouseover(d) {
     text.transition()
-        .duration(200)
-        .style("opacity", .9);
-
+        .duration(20)
+    //    .attr("x", function(d) { return x(d.label) - 30; })
+        .style("opacity", .9)
+        .attr("width", 600);
     createMessage(d);
 };
 
@@ -135,6 +135,19 @@ function onMouseout(d) {
 };
 
 function createMessage(d) {
+    text.html(
+        "<text id='thumbnail'><span> IMPORTE:" + d.sales + "</text>")
+    //"MENSAJITO")
+
+        .style("left", (d3.event.pageX - 113) + "px")   
+        .style("top", (d3.event.pageY - 190) + "px")
+        .style("height", "220px")
+        .style("width", "500px")
+        .style("background", d3.rgb("#fdae6b"));
+};
+
+function createMessage1(d) {
+   
     text.html(getMessage(d))
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px")
@@ -142,6 +155,7 @@ function createMessage(d) {
         .style("width", "500px")
         .style("background", d3.rgb("#fdae6b"));
 };
+
 
 function getMessage(d) {
     var message = "MENSAJE";
