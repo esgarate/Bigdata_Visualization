@@ -10,8 +10,7 @@ function main() {
     appendLineCharts();
     addTitle();
     addCircles();
-    addTextLabels();
-    
+    addTextLabels();  
 };
 
 function setupCanvasSize() {
