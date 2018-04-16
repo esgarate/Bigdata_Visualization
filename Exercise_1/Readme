@@ -7,7 +7,10 @@ This task consists on displaying a barchart with the next features:
 
 Adding space between columns.
 Adding colors to each bar.
-Adding a legend.
+Reseve space for the graph
+Add the axis and their scales
 Showing the chart vertically.
+Adding a legend.
 
-We start with the source code in lemoncode repository
+
+We start with the source code in lemoncode repository.
