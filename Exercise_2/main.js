@@ -7,7 +7,7 @@ let margin = null,
 
 let svg = null;
 let x, y = null; // scales
-
+let text = null;
 
 
 
@@ -23,8 +23,8 @@ function main() {
     appendLineCharts();
     addTitle();
     addCircles();
-   
-
+    addTextLabels();
+    
 };
 
 function setupCanvasSize() {
@@ -40,6 +40,9 @@ function appendSvg(domElement) {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+    text = d3.select("body").append("text")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
 }
 
 function setupXScale() {
@@ -80,7 +83,6 @@ function appendLineCharts() {
     .y(function (d) { return y(d.sales); });
 }
 // draw circle for every register in TotalSales    
-//var circles = 
 
 function addCircles(){
  svg.selectAll("circle")
@@ -91,13 +93,12 @@ function addCircles(){
     .attr("cy", function (d) { return y(d.sales) })
     .attr("r", function (d) { return 10; })
     // Add the click
-    //.attr("class", function (d) { return "node "+d.label })
-    //.on("click", click)
+    .on(["click"], onClick)
+    .on("mouseout", onMouseout)
     .call(force.drag);
 }
 
-
-  // Add the valueline path.
+// Add the valueline path.
 function addValueline(){
   svg.append("path")
     .data([totalSales])
@@ -105,6 +106,7 @@ function addValueline(){
     .attr("d", valueline);
 }
 
+//Add a Tittle
 function addTitle() {
     svg.append("text")
         .attr("x", (width/2 ))
@@ -115,17 +117,35 @@ function addTitle() {
         .text("TOTAL SALES PER MONTH ");
 };
 
+//Show the message with mouse click
+
 function onClick(d) {
-    div.transition()
+    text.transition()
         .duration(200)
         .style("opacity", .9);
 
-    createTooltip(d);
+    createMessage(d);
 };
 
+//Hide the message with mouse off
 function onMouseout(d) {
-    div.transition()
+    text.transition()
         .duration(3000)
         .style("opacity", 0);
 };
+
+function createMessage(d) {
+    text.html(getMessage(d))
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px")
+        .style("height", "220px")
+        .style("width", "500px")
+        .style("background", d3.rgb("#fdae6b"));
+};
+
+function getMessage(d) {
+    var message = "MENSAJE";
+    return message;
+};
+
 

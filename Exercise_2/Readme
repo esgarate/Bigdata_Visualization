@@ -8,5 +8,9 @@ Advanced Task EXERCISE 2
 This task consists on creating a Line Chart, add dots and interaction. Whenever you click on the dots display information
 We start with the source code in lemoncode repository
 
-1. Add dots to every register in TotalSales
-2. Display info in the dots
+1. Add dots to every register in TotalSales.
+2. Add a title to the graphic.
+3. Display text message.
+4. Show the message with mouse click
+5. Hide the message with mouse off
+
